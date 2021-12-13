@@ -1,16 +1,37 @@
 const shortid = require('shortid');
+const dSettings = require('../defaultSettings/defaultSettings');
+let Shorted = require('../database/index');
 
+const address: string = `${dSettings.address}:${dSettings.port}/`
 class Shorter{
 
-    public register(link: string): string{
-        //Verifica se o ID já não está registrado 
-        // Registra o ID no banco de dados 
-        console.log(link);
-        return shortid.generate();
+    public async register(link: string):Promise<string>{
+
+        try{
+            let data:any = await Shorted.find({link}); 
+            if(data.length > 0){
+                return `${address}${data[0].shortid}`
+            
+            }else{
+                let id:string =shortid.generate()
+                const newShorted = new Shorted({ shortid: id, link});
+                newShorted.save();
+                return `${address}${id}`;
+            }
+        }catch(err){
+            return `Error: ${err}`
+        }
+
     }
-    public async find(id: string): Promise<string>{
-        //Procura o link usando um id, após isso deve retornar o link;
-        return "aushsauh";
+    
+    public async find(id: string):Promise<string>{
+
+        try{
+            let data:any = await Shorted.find({"shortid": id});
+            return data[0].link;
+        }catch(err){
+            return `Error: ${err}`
+        }
     }
 }
 
