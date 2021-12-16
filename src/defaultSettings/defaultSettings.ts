@@ -1,9 +1,10 @@
 //Edit Here |
 //          V
 
-const defaultSettings: object = {
+const defaultSettings:any = {
     address: 'http://localhost',
-    port: 8080
+    port: 8080,
+    DataBaseIP: "localhost:27017/linkshorter"
 }
 
-module.exports = defaultSettings;
+export default defaultSettings;

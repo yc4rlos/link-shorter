@@ -1,8 +1,9 @@
-const DBAddress = "localhost:27017/linkshorter"
+import defaultSettings from '../defaultSettings/defaultSettings';
+import mongoose from 'mongoose';
 
-const mongoose = require('mongoose');
-
-mongoose.connect("mongodb://" + DBAddress);
+mongoose.connect("mongodb://" + defaultSettings.DataBaseIP).catch((err: string) => {
+    console.log("Database connect was refused. Error: " + err);
+});
 
 const model = new mongoose.Schema({
     shortid: String,
@@ -11,4 +12,4 @@ const model = new mongoose.Schema({
 
 const shortedModel = mongoose.model("shorted", model);
 
-module.exports = shortedModel;
+export default shortedModel;

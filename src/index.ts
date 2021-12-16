@@ -1,6 +1,6 @@
-const application = require('./App/App');
-const settings = require('./defaultSettings/defaultSettings');
+import app from './App/App';
+import defaultSetings from './defaultSettings/defaultSettings';
 
-application.listen(settings.port, () => {
-    console.log("Link Shortner is running.");
+app.listen(defaultSetings.port, () => {
+    console.log("Link Shorter is running.");
 });

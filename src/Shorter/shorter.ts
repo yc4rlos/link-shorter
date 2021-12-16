@@ -1,23 +1,36 @@
-const shortid = require('shortid');
-const dSettings = require('../defaultSettings/defaultSettings');
-let Shorted = require('../database/index');
+import shortid from 'shortid';
+import defaultSettings from '../defaultSettings/defaultSettings';
+import Shorted from '../database/index';
 
-const address: string = `${dSettings.address}:${dSettings.port}/`
+const hostAddress: string = `${defaultSettings.address}:${defaultSettings.port}/`
 class Shorter{
 
     public async register(link: string):Promise<string>{
 
+        if(link == ""){
+            return "";
+        }
         try{
+
+            //Check if is already shorted
+            let lastCharacters:string = link.slice(link.length - 9 );
+            let idAlreadyRegistered:any = await Shorted.find({shortid: lastCharacters});
+            if(idAlreadyRegistered.length > 0){
+                return link;
+            }
+
+            //Check if is already registered
             let data:any = await Shorted.find({link}); 
             if(data.length > 0){
-                return `${address}${data[0].shortid}`
+                return `${hostAddress}${data[0].shortid}`
             
-            }else{
-                let id:string =shortid.generate()
-                const newShorted = new Shorted({ shortid: id, link});
-                newShorted.save();
-                return `${address}${id}`;
             }
+
+            //Gerenate a new Link
+            let id:string =shortid.generate()
+            const newShorted = new Shorted({ shortid: id, link});
+            newShorted.save();
+            return `${hostAddress}${id}`;
         }catch(err){
             return `Error: ${err}`
         }
@@ -35,4 +48,4 @@ class Shorter{
     }
 }
 
-module.exports = new Shorter;
+export default new Shorter;
