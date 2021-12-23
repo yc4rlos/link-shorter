@@ -5,6 +5,7 @@
     <li>Express</li>
     <li>Mongoose</li>
     <li>TypeScript</li>
+    <li>TS-Node</li>
     </ul>    
 </div>
 
