@@ -38,8 +38,12 @@ You can compile this project with this command:
 
 ## Run
 
-Run the application with this command:
+Run the application after compile with this command:
 
 `npm start`
+
+or run using ts-node without compile with this command:
+
+`npx ./src/index.ts`
 
 It will star the App on **localhost:3000**
